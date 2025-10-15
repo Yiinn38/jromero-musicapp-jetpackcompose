@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.rasec.musicapp.components.BottomPlayerBar
 import com.rasec.musicapp.screens.HomeScreen
 import com.rasec.musicapp.screens.HomeScreenRoute
 import com.rasec.musicapp.screens.AlbumDetailScreen
@@ -27,7 +28,7 @@ class MainActivity : ComponentActivity() {
         Scaffold(
           modifier = Modifier.fillMaxSize(),
           bottomBar = {
-
+            BottomPlayerBar()
           }
         ) { innerPadding ->
           NavHost(navController = navController, startDestination = HomeScreenRoute) {
