@@ -23,7 +23,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.rasec.musicapp.ui.theme.DarkColor
-import com.rasec.musicapp.ui.theme.LightColor
 import com.rasec.musicapp.ui.theme.PrimaryColor
 
 @Composable
@@ -36,7 +35,6 @@ fun HeaderCard(){
         brush = Brush.verticalGradient(
           colors = listOf(
             PrimaryColor,
-            LightColor,
             DarkColor
           )
         )
