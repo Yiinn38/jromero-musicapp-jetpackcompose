@@ -7,9 +7,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -23,6 +22,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.rasec.musicapp.components.AlbumCard
 import com.rasec.musicapp.models.Album
+import com.rasec.musicapp.sections.HeaderCard
+import com.rasec.musicapp.sections.TitlesRow
 import com.rasec.musicapp.services.AlbumService
 import com.rasec.musicapp.ui.theme.BackgroundColor
 import com.rasec.musicapp.ui.theme.DarkColor
@@ -62,7 +63,7 @@ fun HomeScreen(navController: NavController) {
     }
   }
 
-  if(loading) {
+  if (loading) {
     Box(
       modifier = Modifier
         .fillMaxSize()
@@ -79,20 +80,22 @@ fun HomeScreen(navController: NavController) {
       modifier = Modifier
         .fillMaxSize()
         .background(BackgroundColor)
-        .padding(top = 40.dp)
+        .padding(top = 45.dp)
+        .padding(horizontal = 16.dp)
     ) {
-      LazyVerticalGrid(
-        modifier = Modifier.fillMaxSize(),
-        columns = GridCells.Fixed(2),
+      HeaderCard()
+      TitlesRow(title = "Albums")
+      LazyRow(
         contentPadding = PaddingValues(8.dp)
       ) {
         items(albums) { album ->
           AlbumCard(
             album = album,
-            onClick = { navController.navigate(AlbumDetailScreenRoute(album.id))}
+            onClick = { navController.navigate(AlbumDetailScreenRoute(album.id)) }
           )
         }
       }
+      TitlesRow(title = "Recently Played")
     }
   }
 }

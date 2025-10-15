@@ -24,7 +24,12 @@ class MainActivity : ComponentActivity() {
     setContent {
       MusicAppTheme {
         val navController = rememberNavController()
-        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+        Scaffold(
+          modifier = Modifier.fillMaxSize(),
+          bottomBar = {
+
+          }
+        ) { innerPadding ->
           NavHost(navController = navController, startDestination = HomeScreenRoute) {
             composable<HomeScreenRoute> {
               HomeScreen(

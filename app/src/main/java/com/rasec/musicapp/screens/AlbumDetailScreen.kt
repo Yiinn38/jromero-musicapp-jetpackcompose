@@ -54,7 +54,8 @@ fun AlbumDetailScreen(id: String) {
     modifier = Modifier
       .fillMaxSize()
       .background(BackgroundColor)
-      .padding(top = 40.dp),
+      .padding(top = 45.dp)
+      .padding(horizontal = 16.dp),
     horizontalAlignment = Alignment.CenterHorizontally
   ) {
     if(currentAlbum != null) {

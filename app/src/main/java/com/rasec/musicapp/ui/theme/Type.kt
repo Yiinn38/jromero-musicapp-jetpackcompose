@@ -17,21 +17,15 @@ val poppinsFontFamily = FontFamily(
 
 val poppinsTypo = Typography(
   bodyLarge = TextStyle(
-    fontWeight = FontWeight.Normal,
+    fontWeight = FontWeight.Bold,
     fontFamily = poppinsFontFamily,
-    fontSize = 16.sp,
-    lineHeight = 24.sp
   ),
   bodyMedium = TextStyle(
     fontWeight = FontWeight.Normal,
     fontFamily = poppinsFontFamily,
-    fontSize = 14.sp,
-    lineHeight = 20.sp
   ),
   bodySmall = TextStyle(
-    fontWeight = FontWeight.Normal,
+    fontWeight = FontWeight.Light,
     fontFamily = poppinsFontFamily,
-    fontSize = 12.sp,
-    lineHeight = 16.sp
   ),
 )
