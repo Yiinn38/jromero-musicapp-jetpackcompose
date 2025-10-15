@@ -2,6 +2,7 @@ package com.rasec.musicapp.screens
 
 import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -56,7 +57,7 @@ fun AlbumDetailScreen(id: String) {
       .background(BackgroundColor)
       .padding(top = 45.dp)
       .padding(horizontal = 16.dp),
-    horizontalAlignment = Alignment.CenterHorizontally
+    horizontalAlignment = Alignment.CenterHorizontally,
   ) {
     if(currentAlbum != null) {
       Text(text = currentAlbum.title)

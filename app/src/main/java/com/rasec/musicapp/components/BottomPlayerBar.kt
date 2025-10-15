@@ -17,6 +17,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.SkipNext
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -32,6 +33,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.rasec.musicapp.models.Album
 import com.rasec.musicapp.services.AlbumService
@@ -103,8 +105,18 @@ fun BottomPlayerBar() {
         .padding(start = 12.dp),
       verticalArrangement = Arrangement.Center
     ) {
-      Text(text = title, color = Color.White)
-      Text(text = artist, color = Color.LightGray)
+      Text(
+        text = title,
+        color = Color.White,
+        style = MaterialTheme.typography.bodyLarge,
+        fontSize = 16.sp
+      )
+      Text(
+        text = artist,
+        color = Color.LightGray,
+        style = MaterialTheme.typography.bodyMedium,
+        fontSize = 10.sp
+      )
     }
 
     Icon(
