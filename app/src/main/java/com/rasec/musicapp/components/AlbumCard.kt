@@ -39,7 +39,7 @@ fun AlbumCard(
     Box(
       modifier = Modifier
         .size(150.dp)
-        .clip(RoundedCornerShape(8.dp))
+        .clip(RoundedCornerShape(16.dp))
     ) {
       AsyncImage(
         model = album.image,
@@ -58,7 +58,6 @@ fun AlbumCard(
           .padding(8.dp)
           .alpha(0.7f)
       )
-
     }
 
     Text(
