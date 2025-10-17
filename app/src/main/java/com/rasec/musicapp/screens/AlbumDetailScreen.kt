@@ -2,37 +2,18 @@ package com.rasec.musicapp.screens
 
 import android.util.Log
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.PlayCircle
-import androidx.compose.material.icons.filled.Shuffle
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
@@ -53,9 +34,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 @Composable
 fun AlbumDetailScreen(id: String) {
   val BASE_URL = "https://music.juanfrausto.com/api/"
-  var album by remember {
-    mutableStateOf<Album?>(null)
-  }
+  var album by remember { mutableStateOf<Album?>(null) }
+
   LaunchedEffect(true) {
     try {
       val retrofit = Retrofit.Builder()
@@ -63,9 +43,7 @@ fun AlbumDetailScreen(id: String) {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
       val service = retrofit.create(AlbumService::class.java)
-      val result = withContext(Dispatchers.IO) {
-        service.getAlbumById(id)
-      }
+      val result = withContext(Dispatchers.IO) { service.getAlbumById(id) }
       album = result
       Log.i("ProductDetail", album.toString())
     } catch (e: Exception) {
@@ -74,63 +52,93 @@ fun AlbumDetailScreen(id: String) {
   }
 
   val Album = album
-  Column(
+
+  Box(
     modifier = Modifier
       .fillMaxSize()
-      .background(BackgroundColor)
-      .padding(top = 45.dp)
-      .padding(horizontal = 16.dp),
-    horizontalAlignment = Alignment.CenterHorizontally,
+      .background(BackgroundColor),
+    contentAlignment = Alignment.Center
   ) {
     if (Album != null) {
-      HeaderAlbum(album = Album)
-      Column(
+      LazyColumn(
         modifier = Modifier
-          .fillMaxWidth()
-          .padding(8.dp)
-          .shadow(
-            elevation = 4.dp,
-            shape = RoundedCornerShape(16.dp)
-          )
-          .background(Color.White)
-          .clip(RoundedCornerShape(16.dp))
-          .padding(12.dp)
+          .fillMaxSize()
+          .padding(top = 45.dp),
+        contentPadding = PaddingValues(horizontal = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
       ) {
-        Text(
-          text = "About this album",
-          color = PrimaryColor,
-          style = MaterialTheme.typography.bodyLarge,
-        )
-        Text(
-          text = Album.description,
-          color = Color.DarkGray,
-          style = MaterialTheme.typography.bodyMedium,
-        )
-      }
-      Column(
-        modifier = Modifier
-          .padding(8.dp)
-          .align(Alignment.Start)
-          .width(240.dp)
-          .shadow(
-            elevation = 4.dp,
-            shape = RoundedCornerShape(16.dp)
+
+        item {
+          HeaderAlbum(album = Album)
+        }
+
+        item {
+          Column(
+            modifier = Modifier
+              .fillMaxWidth()
+              .padding(8.dp)
+              .shadow(4.dp, RoundedCornerShape(16.dp))
+              .background(Color.White)
+              .clip(RoundedCornerShape(16.dp))
+              .padding(12.dp)
+          ) {
+            Text(
+              "About this album",
+              color = PrimaryColor,
+              style = MaterialTheme.typography.bodyLarge
+            )
+            Text(
+              Album.description,
+              color = Color.DarkGray,
+              style = MaterialTheme.typography.bodyMedium
+            )
+          }
+        }
+
+        item {
+          Box(modifier = Modifier.fillMaxWidth()) {
+            Column(
+              modifier = Modifier
+                .padding(8.dp)
+                .align(Alignment.CenterStart)
+                .width(240.dp)
+                .shadow(4.dp, RoundedCornerShape(16.dp))
+                .background(Color.White)
+                .clip(RoundedCornerShape(16.dp))
+                .padding(12.dp),
+              horizontalAlignment = Alignment.Start
+            ) {
+              Text(
+                "Artist",
+                color = PrimaryColor,
+                style = MaterialTheme.typography.bodyLarge
+              )
+              Text(
+                Album.artist,
+                color = Color.DarkGray,
+                style = MaterialTheme.typography.bodyMedium
+              )
+            }
+          }
+        }
+
+        item {
+          Spacer(modifier = Modifier.height(16.dp))
+        }
+
+        val tracks = (1..24 step 1).map { trackNumber ->
+          "Track.$trackNumber"
+        }
+
+        itemsIndexed(tracks) { index, trackName ->
+          SongItem(
+            trackNumber = trackName,
+            title = Album.title,
+            artist = Album.artist,
+            imageUrl = Album.image
           )
-          .background(Color.White)
-          .clip(RoundedCornerShape(16.dp))
-          .padding(12.dp),
-        horizontalAlignment = Alignment.Start
-      ) {
-        Text(
-          text = "Artist",
-          color = PrimaryColor,
-          style = MaterialTheme.typography.bodyLarge,
-        )
-        Text(
-          text = Album.artist,
-          color = Color.DarkGray,
-          style = MaterialTheme.typography.bodyMedium,
-        )
+          Spacer(modifier = Modifier.height(8.dp))
+        }
       }
 
     } else {
@@ -139,5 +147,62 @@ fun AlbumDetailScreen(id: String) {
         trackColor = LightColor
       )
     }
+  }
+}
+
+@Composable
+fun SongItem(
+  trackNumber: String,
+  title: String,
+  artist: String,
+  imageUrl: String
+) {
+  Row(
+    modifier = Modifier
+      .fillMaxWidth()
+      .shadow(4.dp, RoundedCornerShape(16.dp))
+      .clip(RoundedCornerShape(16.dp))
+      .background(Color.White)
+      .padding(8.dp),
+    verticalAlignment = Alignment.CenterVertically
+  ) {
+    Box(
+      modifier = Modifier
+        .size(60.dp)
+        .clip(RoundedCornerShape(16.dp))
+    ) {
+      AsyncImage(
+        model = imageUrl,
+        contentDescription = null,
+        error = ColorPainter(DarkColor),
+        contentScale = ContentScale.Crop,
+        modifier = Modifier.fillMaxSize()
+      )
+    }
+
+    Column(
+      modifier = Modifier
+        .fillMaxHeight()
+        .padding(start = 8.dp)
+    ) {
+      Text(
+        "$title  • $trackNumber",
+        style = MaterialTheme.typography.bodyLarge,
+        color = PrimaryColor
+      )
+      Text(
+        artist,
+        style = MaterialTheme.typography.bodySmall,
+        color = Color.Gray
+      )
+    }
+
+    Spacer(modifier = Modifier.weight(1f))
+
+    Icon(
+      imageVector = Icons.Default.MoreVert,
+      contentDescription = null,
+      tint = Color.DarkGray
+    )
   }
 }

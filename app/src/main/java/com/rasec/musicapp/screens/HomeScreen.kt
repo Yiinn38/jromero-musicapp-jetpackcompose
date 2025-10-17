@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -79,37 +78,44 @@ fun HomeScreen(navController: NavController) {
       )
     }
   } else {
-    Column(
+    LazyColumn(
       modifier = Modifier
         .fillMaxSize()
         .background(BackgroundColor)
-        .padding(top = 45.dp)
-        .padding(horizontal = 16.dp)
+        .padding(top = 45.dp),
+      contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp),
+      verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-      HeaderCard()
-      TitlesRow(title = "Albums")
-      LazyRow(
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
-      ) {
-        items(albums) { album ->
-          AlbumCard(
-            album = album,
-            onClick = { navController.navigate(AlbumDetailScreenRoute(album.id)) }
-          )
+
+      item {
+        HeaderCard()
+      }
+
+      item {
+        TitlesRow(title = "Albums")
+      }
+
+      item {
+        LazyRow(
+          horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+          items(albums) { album ->
+            AlbumCard(
+              album = album,
+              onClick = { navController.navigate(AlbumDetailScreenRoute(album.id)) }
+            )
+          }
         }
       }
 
-      TitlesRow(title = "Recently Played")
+      item {
+        TitlesRow(title = "Recently Played")
+      }
 
-      LazyColumn(
-        modifier = Modifier.padding(bottom = 12.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-      ) {
-        items(albums) { album ->
-          AlbumList(
-            album = album
-          )
-        }
+      items(albums) { album ->
+        AlbumList(
+          album = album
+        )
       }
     }
   }
